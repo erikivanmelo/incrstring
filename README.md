@@ -24,11 +24,25 @@ removes the spaces at the end of the string
 <code>#define strtrim(str)</code>
 removes the spaces at the start and end of the string
 
+<code>void strins(char* str,int x,const char* substr)</code>
+inserts a substring in a specific point
+
 <code>#define strinss(str,substr)</code>
 inserts a substring at the start of the string
 
 <code>#define strinse(str,substr)</code>
 inserts a substring at the end of the string
+
+
+<code>void strchinse(char* str,const char ch)</code>
+inserts a character at the end of the string.
+
+<code>void strchinss(char* str,const char ch)</code>
+inserts a character at the start of the string.
+
+<code>void strchins(char* str,int x,const char ch)</code>
+insert a character in a specific point.
+
 
 <code>#define strfpos(str,substr)</code>
 Returns the position of the first occurrence of a string
@@ -51,8 +65,6 @@ reverses the position of the characters in the string
 <code>char strrem(char* str, int i)</code>
 remove the character from a string that is in a specific index
 
-<code>void strins(char* str,int x,const char* substr)</code>
-insert a substring in a specific point
 
 <code>int strposse(const char *str,const char *substr, int i)</code>
 returns the first position of a substring analyzing it from start to end, starting from the incident "i"

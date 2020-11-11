@@ -81,6 +81,15 @@ void strins(char* str,int x,const char* substr){
 		str[j+x] = substr[j];
 }
 
+/* inserts a character at the end of the string */
+void strchinse(char* str,const char ch 	    ){ const char *temp = &ch; strcat(str,temp)   ;}
+
+/* inserts a character at the start of the string */
+void strchinss(char* str,const char ch 	    ){ const char *temp = &ch; strinss(str,temp)  ;}
+
+/* inserts a character in a specific point */
+void strchins(char* str,int x,const char ch ){ const char *temp = &ch; strins(str,i,temp) ;}
+
 /* returns the first position of a substring analyzing it from start to end, starting from the incident "i" */
 int strposse(const char *str,const char *substr, int i){
 	if(strempty(str)) return -1;
@@ -242,5 +251,8 @@ int strsplit(const char *str,const char *sep,const int h,const int w, char arr[h
 	arr[y][x++] = '\0';
 	return y+1;
 }
+
+
+
 
 #endif
