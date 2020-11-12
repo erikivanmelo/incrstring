@@ -15,11 +15,11 @@ Returns 1 if the start character is the one entered
 <code>#define strrst(str)</code>
 Set 0 in all index
 
-<code>#define strtrims(str)</code>
-removes the spaces at the start of the string
+<code>#define strtriml(str)</code>
+removes spaces that are to the left of the string
 
-<code>#define strtrime(str)</code>
-removes the spaces at the end of the string
+<code>#define strtrimr(str)</code>
+remove spaces that are to the right of the string
 
 <code>#define strtrim(str)</code>
 removes the spaces at the start and end of the string
@@ -27,22 +27,20 @@ removes the spaces at the start and end of the string
 <code>void strins(char* str,int x,const char* substr)</code>
 inserts a substring in a specific point
 
-<code>#define strinss(str,substr)</code>
-inserts a substring at the start of the string
+<code>#define strinsl(str,substr)</code>
+inserts a substring to the left of the string
 
-<code>#define strinse(str,substr)</code>
-inserts a substring at the end of the string
+<code>#define strinsr(str,substr)</code>
+inserts a substring to the right of the string
 
+<code>void strchinsr(char* str,const char ch)</code>
+inserts a character to the right of the string.
 
-<code>void strchinse(char* str,const char ch)</code>
-inserts a character at the end of the string.
-
-<code>void strchinss(char* str,const char ch)</code>
-inserts a character at the start of the string.
+<code>void strchinsl(char* str,const char ch)</code>
+inserts a character to the left of the string.
 
 <code>void strchins(char* str,int x,const char ch)</code>
 insert a character in a specific point.
-
 
 <code>#define strfpos(str,substr)</code>
 Returns the position of the first occurrence of a string
@@ -65,12 +63,11 @@ reverses the position of the characters in the string
 <code>char strrem(char* str, int i)</code>
 remove the character from a string that is in a specific index
 
+<code>int strposlr(const char *str,const char *substr, int i)</code>
+returns the first position of a substring analyzing it from left to right, starting from the incident "i"
 
-<code>int strposse(const char *str,const char *substr, int i)</code>
-returns the first position of a substring analyzing it from start to end, starting from the incident "i"
-
-<code>int strposes(char *str,const char *substr, int i)</code>
-returns the first position of a substring analyzing it from end to start, starting from the incident "i"
+<code>int strposrl(char *str,const char *substr, int i)</code>
+returns the first position of a substring analyzing it from right to left, starting from the incident "i"
 
 <code>void strrep(char *str,const char *a,const char *b)</code>
 replace a substring with another substring

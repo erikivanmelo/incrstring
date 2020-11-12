@@ -6,29 +6,29 @@
 /* returns 1 if the string is empty */
 #define strempty(str) str==""
 
-/* Returns 1 if the end character is the one entered */
-#define strew(str,ch) str[strlen(str)-1]==ch
+/* Returns 1 if the string ends with 'ch' */
+#define strlw(str,ch) str[strlen(str)-1]==ch
 
-/* Returns 1 if the start character is the one entered */
+/* Returns 1 if the string starts with 'ch' */
 #define strsw(str,ch) str[0]==ch
 
 /* Set 0 in all index */
 #define strrst(str) memset(str,0,strlen(str))
 
-/* removes the spaces at the start of the string */
-#define strtrims(str) while(str[0]==' ')strrem(str,0)
+/* removes spaces that are to the left of the string */
+#define strtriml(str) while(str[0]==' ')strrem(str,0)
 
-/* removes the spaces at the end of the string */
-#define strtrime(str) for(int ___i = strlen(str)-1;str[___i]==' ';)strrem(str,___i--) 
+/* remove spaces that are to the right of the string */
+#define strtrimr(str) for(int ___i = strlen(str)-1;str[___i]==' ';)strrem(str,___i--) 
 
-/* removes the spaces at the start and end of the string */
+/* remove spaces that are to the right and left of the string */
 #define strtrim(str) strtrims(str);strtrime(str);
 
-/* inserts a substring at the start of the string */
-#define strinss(str,substr) strins(str,0,substr)
+/* inserts a substring to the left of the string */
+#define strinsl(str,substr) strins(str,0,substr)
 
-/* inserts a substring at the end of the string */
-#define strinse(str,substr) strcat(str,substr)
+/* inserts a substring to the right of the string */
+#define strinsr(str,substr) strcat(str,substr)
 
 /* Returns the position of the first occurrence of a string */
 #define strfpos(str,substr) strposse(str,substr,0)
@@ -81,17 +81,17 @@ void strins(char* str,int x,const char* substr){
 		str[j+x] = substr[j];
 }
 
-/* inserts a character at the end of the string */
-void strchinse(char* str,const char ch 	    ){ const char *temp = &ch; strcat(str,temp)   ;}
+/* inserts a character to the right of the string */
+void strchinsr(char* str,const char ch 	    ){ const char *temp = &ch; strcat(str,temp)   ;}
 
-/* inserts a character at the start of the string */
-void strchinss(char* str,const char ch 	    ){ const char *temp = &ch; strinss(str,temp)  ;}
+/* inserts a character to the left of the string */
+void strchinsl(char* str,const char ch 	    ){ const char *temp = &ch; strinss(str,temp)  ;}
 
 /* inserts a character in a specific point */
-void strchins(char* str,int x,const char ch ){ const char *temp = &ch; strins(str,i,temp) ;}
+void strchins(char* str,int x,const char ch ){ const char *temp = &ch; strins(str,x,temp) ;}
 
-/* returns the first position of a substring analyzing it from start to end, starting from the incident "i" */
-int strposse(const char *str,const char *substr, int i){
+/* returns the first position of a substring analyzing it from left to right, starting from the incident "i" */
+int strposlr(const char *str,const char *substr, int i){
 	if(strempty(str)) return -1;
 	int substr_len = strlen(substr);
 	const int len = (strlen(str)-substr_len)+1;
@@ -127,8 +127,8 @@ int strposse(const char *str,const char *substr, int i){
 	return (iqual)? i-1 : -1 ;
 }
 
-/* returns the first position of a substring analyzing it from end to start, starting from the incident "i" */
-int strposes(char *str,const char *substr, int i){
+/* returns the first position of a substring analyzing it from right to left, starting from the incident "i" */
+int strposrl(char *str,const char *substr, int i){
 	if ( strempty(str) ) return -1;
 	if ( strempty(substr) ) return -2;
 	if ( strlen(substr) > strlen(str) ) return -2;
