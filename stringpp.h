@@ -3,49 +3,50 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* returns 1 if the string is empty */
+
+/* Returns 1 if the string is empty. */
 #define strempty(str) str==""
 
-/* Returns 1 if the string ends with 'ch' */
-#define strlw(str,ch) str[strlen(str)-1]==ch
+/* Returns 1 if the string ends with 'ch'. */
+#define strew(str,ch) str[strlen(str)-1]==ch
 
-/* Returns 1 if the string starts with 'ch' */
+/* Returns 1 if the string starts with 'ch'. */
 #define strsw(str,ch) str[0]==ch
 
-/* Set 0 in all index */
-#define strrst(str) memset(str,0,strlen(str))
+/* Returns the position of the first occurrence of a string. */
+#define strfpos(str,substr) strposlr(str,substr,0)
 
-/* removes spaces that are to the left of the string */
-#define strtriml(str) while(str[0]==' ')strrem(str,0)
+/* Returns the position of the first occurrence of a string. */
+#define strlpos(str,substr) strposrl(str,substr,strlen(str)-1)
 
-/* remove spaces that are to the right of the string */
-#define strtrimr(str) for(int ___i = strlen(str)-1;str[___i]==' ';)strrem(str,___i--) 
-
-/* remove spaces that are to the right and left of the string */
-#define strtrim(str) strtrims(str);strtrime(str);
-
-/* inserts a substring to the left of the string */
+/* Inserts a substring to the left of the string. */
 #define strinsl(str,substr) strins(str,0,substr)
 
-/* inserts a substring to the right of the string */
+/* Inserts a substring to the right of the string. */
 #define strinsr(str,substr) strcat(str,substr)
 
-/* Returns the position of the first occurrence of a string */
-#define strfpos(str,substr) strposse(str,substr,0)
+/* Sets 0 in all index. */
+#define strrst(str) memset(str,0,strlen(str))
 
-/* Returns the position of the first occurrence of a string */
-#define strlpos(str,substr) strposes(str,substr,strlen(str)-1)
-
-/* converts lowercase to uppercase */
-#define strtoupr(str) for(int ___i = strlen(str);___i--;)if (str[___i]>='a' && str[___i]<='z')str[___i]-=32
-
-/* converts uppercase to lowercase */
+/* Converts uppercase to lowercase. */
 #define strtolwr(str) for(int ___i = strlen(str);___i--;)if (str[___i]>='A' && str[___i]<='Z')str[___i]+=32
 
-/* converts lowercase to uppercase and uppercase to lowercase respectively */
+/* Converts lowercase to uppercase and uppercase to lowercase respectively. */
 #define strtoopp(str) for(int ___i = strlen(str);___i--;)if (str[___i]>='A' && str[___i]<='Z')str[___i]+=32;else if (str[___i]>='a' && str[___i]<='z')str[___i]-=32
 
-/* reverses the position of the characters in the string */
+/* Converts lowercase to uppercase. */
+#define strtoupr(str) for(int ___i = strlen(str);___i--;)if (str[___i]>='a' && str[___i]<='z')str[___i]-=32
+
+/* Removes spaces that are to the right and left of the string. */
+#define strtrim(str) strtriml(str);strtrimr(str);
+
+/* Removes spaces that are to the left of the string. */
+#define strtriml(str) while(str[0]==' ')strrem(str,0)
+
+/* Removes spaces that are to the right of the string. */
+#define strtrimr(str) for(int ___i = strlen(str)-1;str[___i]==' ';)strrem(str,___i--) 
+
+/* Reverses the position of the characters in the string. */
 #define strrvrs(str)({\
 	char ___buffer[strlen(str)];\
 	memcpy(___buffer, str, strlen(str));\
@@ -54,19 +55,9 @@
 	}\
 })
 
-/* remove the character from a string that is in a specific index */
-char strrem(char* str, int i){
-	const int len = strlen(str);
-	if (strempty(str)) return -1;
-	if (i >= len)return -2;
-	if (i < 0 && i*-1 >= len)return -2;
-	if (i<0) i = len+i;else i--;
-	while( i++ < len)
-		str[i] = str[i+1];
-	str[i]='\0';
-}
 
-/* insert a substring in a specific point */
+
+/* Inserts a substring in a specific point. */
 void strins(char* str,int x,const char* substr){
 	const int substr_len = strlen(substr);
 	const int len = strlen(str);
@@ -81,16 +72,16 @@ void strins(char* str,int x,const char* substr){
 		str[j+x] = substr[j];
 }
 
-/* inserts a character to the right of the string */
-void strchinsr(char* str,const char ch 	    ){ const char *temp = &ch; strcat(str,temp)   ;}
-
-/* inserts a character to the left of the string */
-void strchinsl(char* str,const char ch 	    ){ const char *temp = &ch; strinss(str,temp)  ;}
-
-/* inserts a character in a specific point */
+/* Inserts a character in a specific point. */
 void strchins(char* str,int x,const char ch ){ const char *temp = &ch; strins(str,x,temp) ;}
 
-/* returns the first position of a substring analyzing it from left to right, starting from the incident "i" */
+/* Inserts a character to the left of the string. */
+void strchinsl(char* str,const char ch 	    ){ const char *temp = &ch; strinsl(str,temp)  ;}
+
+/* Inserts a character to the right of the string. */
+void strchinsr(char* str,const char ch 	    ){ const char *temp = &ch; strcat(str,temp)   ;}
+
+/* Returns the first position of a substring analyzing it from left to right, starting from the incident 'i'. */
 int strposlr(const char *str,const char *substr, int i){
 	if(strempty(str)) return -1;
 	int substr_len = strlen(substr);
@@ -127,7 +118,7 @@ int strposlr(const char *str,const char *substr, int i){
 	return (iqual)? i-1 : -1 ;
 }
 
-/* returns the first position of a substring analyzing it from right to left, starting from the incident "i" */
+/* Returns the first position of a substring analyzing it from right to left, starting from the incident 'i'. */
 int strposrl(char *str,const char *substr, int i){
 	if ( strempty(str) ) return -1;
 	if ( strempty(substr) ) return -2;
@@ -163,13 +154,43 @@ int strposrl(char *str,const char *substr, int i){
 	return (iqual)? (i-substr_len)+1 : -1 ;
 }
 
-/* replace a substring with another substring */
+/* Returns the number of times a substring appears. */
+int strcount(const char *str, const char *word){
+	int count = 0,i=0;
+	const int word_len = strlen(word);
+	if ( strempty(str) || strempty(word)) return 0;
+	if ( (i = strposlr(str,word,0)) < 0 ) return 0;
+
+	if (word_len == 1){
+		i = strlen(str);
+		while(i--) if (str[i] == word[0]) count++;
+		return count;
+	}
+	else{
+		do count++;	while( (i = strposlr(str,word,i+word_len) ) > -1 );
+		return count;
+	}
+}
+
+/* Removes the character from a string that is in a specific index. */
+char strrem(char* str, int i){
+	const int len = strlen(str);
+	if (strempty(str)) return -1;
+	if (i >= len)return -2;
+	if (i < 0 && i*-1 >= len)return -2;
+	if (i<0) i = len+i;else i--;
+	while( i++ < len)
+		str[i] = str[i+1];
+	str[i]='\0';
+}
+
+/* Replaces a substring with another substring. */
 void strrep(char *str,const char *a,const char *b){
 	int i2,i;
 	const int len   = strlen(str);
 	const int a_len = i2 = strlen(a);
 	const int b_len = strlen(b);
-	if ((i = strposes(str,a,len-1)) < 0 ) return;
+	if ((i = strposrl(str,a,len-1)) < 0 ) return;
 	i++;
 
 	if (a_len == 1 && b_len == 1)
@@ -192,33 +213,14 @@ void strrep(char *str,const char *a,const char *b){
 				strrem(str,i);
 			strins(str,i,b);
 			i2 = a_len;
-		}while( (i = strposes(str,a,i-1)) > -1 );
+		}while( (i = strposrl(str,a,i-1)) > -1 );
 	}
 }
 
-
-/* returns the number of times a substring appears */
-int strcount(const char *str, const char *word){
-	int count = 0,i=0;
-	const int word_len = strlen(word);
-	if ( strempty(str) || strempty(word)) return 0;
-	if ( (i = strposse(str,word,0)) < 0 ) return 0;
-
-	if (word_len == 1){
-		i = strlen(str);
-		while(i--) if (str[i] == word[0]) count++;
-		return count;
-	}
-	else{
-		do count++;	while( (i = strposse(str,word,i+word_len) ) > -1 );
-		return count;
-	}
-}
-
-/* Separate a string based on a separator and save the result in a matrix. And return the number of substrings that resulted from that separation returns. */
+/* Separates a string based on a separator and save the result in a matrix. And return the number of substrings that resulted from that separation returns. */
 int strsplit(const char *str,const char *sep,const int h,const int w, char arr[h][w]){
 	int i = -1,x = -1,y = 0;
-	if ( strposse(str,sep,0) < 0 ){
+	if ( strposlr(str,sep,0) < 0 ){
 		strcpy(arr[0],str);
 		return 0;
 	}
@@ -236,7 +238,7 @@ int strsplit(const char *str,const char *sep,const int h,const int w, char arr[h
 			}
 		}while(i<len);
 	}else{
-		int nextSep = strposse(str,sep,0);
+		int nextSep = strposlr(str,sep,0);
 		do{
 			arr[y][x++] = str[i++];
 			if (i==nextSep){
@@ -244,15 +246,12 @@ int strsplit(const char *str,const char *sep,const int h,const int w, char arr[h
 				y++;
 				x=-1;
 				i+=sep_len-1;
-				nextSep = strposse(str,sep,i);
+				nextSep = strposlr(str,sep,i);
 			}
 		}while(i<len);
 	}
 	arr[y][x++] = '\0';
 	return y+1;
 }
-
-
-
 
 #endif
