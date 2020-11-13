@@ -16,7 +16,7 @@
 /* Returns the position of the first occurrence of a string. */
 #define strfpos(str,substr) strposlr(str,substr,0)
 
-/* Returns the position of the first occurrence of a string. */
+/* Returns the position of the last occurrence of a string. */
 #define strlpos(str,substr) strposrl(str,substr,strlen(str)-1)
 
 /* Inserts a substring to the left of the string. */
@@ -141,17 +141,21 @@ int strposrl(char *str,const char *substr, int i){
 			{
 				iqual = 1;
 				while (i2--){
-					if (str[i-(substr_len-i2-1)] != substr[i2]){
+					//printf("[%i]%c == [%i]%c\n",i-((substr_len-1)-i2),str[i-((substr_len-1)-i2)],i2,substr[i2] );
+					
+					if (str[i-((substr_len-1)-i2)] != substr[i2]){
 						iqual = 0;
 						i2 = substr_len;
+						//printf("i = %i\n", i);
 						break;
 					}
 				}
 			}
 		}while(i-- && !iqual);
-	}
+		i++;
 
-	return (iqual)? (i-substr_len)+1 : -1 ;
+		return (iqual)? i-(substr_len-1) : -1 ;
+	}
 }
 
 /* Returns the number of times a substring appears. */
@@ -191,10 +195,10 @@ void strrep(char *str,const char *a,const char *b){
 	const int a_len = i2 = strlen(a);
 	const int b_len = strlen(b);
 	if ((i = strposrl(str,a,len-1)) < 0 ) return;
-	i++;
 
 	if (a_len == 1 && b_len == 1)
 	{
+		i++;
 		while (i--)
 			if (str[i]==a[0])
 				str[i]=b[0];
@@ -202,6 +206,7 @@ void strrep(char *str,const char *a,const char *b){
 	}
 	else if (a_len == 1 && b_len == 0)
 	{
+		i++;
 		while (i--)
 			if (str[i]==a[0])
 				strrem(str,i);
@@ -209,13 +214,15 @@ void strrep(char *str,const char *a,const char *b){
 	}
 	else{
 		do{
-			while (i2--)
+			while (i2--){
 				strrem(str,i);
+			}
 			strins(str,i,b);
 			i2 = a_len;
 		}while( (i = strposrl(str,a,i-1)) > -1 );
 	}
 }
+
 
 /* Separates a string based on a separator and save the result in a matrix. And return the number of substrings that resulted from that separation returns. */
 int strsplit(const char *str,const char *sep,const int h,const int w, char arr[h][w]){
