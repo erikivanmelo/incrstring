@@ -141,12 +141,9 @@ int strposrl(char *str,const char *substr, int i){
 			{
 				iqual = 1;
 				while (i2--){
-					//printf("[%i]%c == [%i]%c\n",i-((substr_len-1)-i2),str[i-((substr_len-1)-i2)],i2,substr[i2] );
-					
 					if (str[i-((substr_len-1)-i2)] != substr[i2]){
 						iqual = 0;
 						i2 = substr_len;
-						//printf("i = %i\n", i);
 						break;
 					}
 				}
@@ -223,6 +220,60 @@ void strrep(char *str,const char *a,const char *b){
 	}
 }
 
+/* Replaces the first occurrence of the substring with another substring. */
+void strfrep(char *str,const char *a,const char *b){
+	//if (str[0] != a[0]) retrn;
+
+	int i2,i;
+	const int len   = strlen(str);
+	const int a_len = i2 = strlen(a);
+	const int b_len = strlen(b);
+	
+	if ((i = strfpos(str,a)) < 0 ) return;
+
+	if (a_len == 1 && b_len == 1)
+	{
+		str[i]=b[0];
+		return;
+	}
+	else if (a_len == 1 && b_len == 0)
+	{
+		strrem(str,i);
+		return;
+	}
+	else{
+		while (i2--)
+			strrem(str,i);
+		strins(str,i,b);
+	}
+}
+
+/* Replaces the last occurrence of the substring with another substring. */
+void strlrep(char *str,const char *a,const char *b){
+	int i2,i;
+	const int len   = strlen(str);
+	const int a_len = i2 = strlen(a);
+	const int b_len = strlen(b);
+	if ((i = strlpos(str,a)) < 0 ) return;
+
+	if (a_len == 1 && b_len == 1)
+	{
+		str[i]=b[0];
+		return;
+	}
+	else if (a_len == 1 && b_len == 0)
+	{
+		strrem(str,i);
+		return;
+	}
+	else{
+		while (i2--)
+			strrem(str,i);
+
+		strins(str,i,b);
+		i2 = a_len;
+	}
+}
 
 /* Separates a string based on a separator and save the result in a matrix. And return the number of substrings that resulted from that separation returns. */
 int strsplit(const char *str,const char *sep,const int h,const int w, char arr[h][w]){
