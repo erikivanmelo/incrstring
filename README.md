@@ -81,5 +81,5 @@ Replaces the first occurrence of the substring with another substring
 <code>void strlrep(char *str,const char *a,const char *b)</code>
 Replaces the last occurrence of the substring with another substring.
 
-<code>int strsplit(const char *str,const char *sep,const int h,const int w, char arr[h][w])</code>
+<code>int strsplit(const char *str,const char *sep,const int w, char **arr)</code>
 Separates a string based on a separator and save the result in a matrix. And return the number of substrings that resulted from that separation returns.

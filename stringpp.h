@@ -183,6 +183,7 @@ char strrem(char* str, int i){
 	while( i++ < len)
 		str[i] = str[i+1];
 	str[i]='\0';
+	return 1;
 }
 
 /* Replaces a substring with another substring. */
@@ -276,39 +277,53 @@ void strlrep(char *str,const char *a,const char *b){
 }
 
 /* Separates a string based on a separator and save the result in a matrix. And return the number of substrings that resulted from that separation returns. */
-int strsplit(const char *str,const char *sep,const int h,const int w, char arr[h][w]){
+int strsplit(const char *str,const char *sep,const size_t w,char ***arr){
 	int i = -1,x = -1,y = 0;
-	if ( strposlr(str,sep,0) < 0 ){
-		strcpy(arr[0],str);
+	
+	char **aux;
+
+	aux = (char**)malloc((strcount(str,sep)+2) * sizeof(char*));
+
+	if ( strfpos(str,sep) < 0 ){
+		aux[0] = (char*)malloc(strlen(str)+1 * sizeof(char) );
+		strcpy(aux[0],str);
 		return 0;
+	}else{
+		aux[0] = (char*)malloc(w * sizeof(char) );
 	}
+
+
 
 	int len = strlen(str);
 	const int sep_len = strlen(sep);
 	if ( sep_len == 1)
 	{
 		do{
-			arr[y][x++] = str[i++];
+			aux[y][x++] = str[i++];
 			if (str[i]==sep[0]){
-				arr[y][x++] = '\0';
+				aux[y][x++] = '\0';
 				y++;
 				x=-1;
+				aux[y] = (char*)malloc(w * sizeof(char) );
 			}
 		}while(i<len);
 	}else{
 		int nextSep = strposlr(str,sep,0);
 		do{
-			arr[y][x++] = str[i++];
+			aux[y][x++] = str[i++];
 			if (i==nextSep){
-				arr[y][x++] = '\0';
+				aux[y][x++] = '\0';
 				y++;
 				x=-1;
 				i+=sep_len-1;
 				nextSep = strposlr(str,sep,i);
+				aux[y] = (char*)malloc(w * sizeof(char) );
 			}
 		}while(i<len);
 	}
-	arr[y][x++] = '\0';
+	aux[y][x++] = '\0';
+
+	*arr = aux;
 	return y+1;
 }
 
