@@ -5,7 +5,7 @@
 
 
 /* Returns 1 if the string is empty. */
-#define strempty(str) str==""
+#define strempty(str)  (strcmp(str,"")==0)
 
 /* Returns 1 if the string ends with 'ch'. */
 #define strew(str,ch) str[strlen(str)-1]==ch
@@ -29,13 +29,13 @@
 #define strrst(str) memset(str,0,strlen(str))
 
 /* Converts uppercase to lowercase. */
-#define strtolwr(str) for(int ___i = strlen(str);___i--;)if (str[___i]>='A' && str[___i]<='Z')str[___i]+=32
+#define strtolwr(str) for(size_t ___i = strlen(str);___i--;)if (str[___i]>='A' && str[___i]<='Z')str[___i]+=32
 
 /* Converts lowercase to uppercase and uppercase to lowercase respectively. */
-#define strtoopp(str) for(int ___i = strlen(str);___i--;)if (str[___i]>='A' && str[___i]<='Z')str[___i]+=32;else if (str[___i]>='a' && str[___i]<='z')str[___i]-=32
+#define strtoopp(str) for(size_t ___i = strlen(str);___i--;)if (str[___i]>='A' && str[___i]<='Z')str[___i]+=32;else if (str[___i]>='a' && str[___i]<='z')str[___i]-=32
 
 /* Converts lowercase to uppercase. */
-#define strtoupr(str) for(int ___i = strlen(str);___i--;)if (str[___i]>='a' && str[___i]<='z')str[___i]-=32
+#define strtoupr(str) for(size_t ___i = strlen(str);___i--;)if (str[___i]>='a' && str[___i]<='z')str[___i]-=32
 
 /* Removes spaces that are to the right and left of the string. */
 #define strtrim(str) strtriml(str);strtrimr(str);
@@ -44,13 +44,13 @@
 #define strtriml(str) while(str[0]==' ')strrem(str,0)
 
 /* Removes spaces that are to the right of the string. */
-#define strtrimr(str) for(int ___i = strlen(str)-1;str[___i]==' ';)strrem(str,___i--) 
+#define strtrimr(str) for(size_t ___i = strlen(str)-1;str[___i]==' ';)strrem(str,___i--) 
 
 /* Reverses the position of the characters in the string. */
 #define strrvrs(str)({\
 	char ___buffer[strlen(str)];\
 	memcpy(___buffer, str, strlen(str));\
-	for(int ___i = -1, ___j = strlen(str);___j;){\
+	for(size_t ___i = -1, ___j = strlen(str);___j;){\
 		___i++;___j--; str[___i] = ___buffer[___j];\
 	}\
 })
@@ -58,22 +58,22 @@
 
 
 /* Inserts a substring in a specific point. */
-void strins(char* str,int x,const char* substr){
-	const int substr_len = strlen(substr);
-	const int len = strlen(str);
+void strins(char* str,long x,const char* substr){
+	const size_t substr_len = strlen(substr);
+	const size_t len = strlen(str);
 
 	if (x<0) x = len-x;
 
 	str[len+substr_len] = '\0';
-	for (int i = len+substr_len; i > x; --i)
+	for (size_t i = len+substr_len; i > x; --i)
 		str[i] = str[i-substr_len];
 
-	for (int j = 0; j < substr_len; ++j)
+	for (size_t j = 0; j < substr_len; ++j)
 		str[j+x] = substr[j];
 }
 
 /* Inserts a character in a specific point. */
-void strchins(char* str,int x,const char ch ){ const char *temp = &ch; strins(str,x,temp) ;}
+void strchins(char* str,long x,const char ch ){ const char *temp = &ch; strins(str,x,temp) ;}
 
 /* Inserts a character to the left of the string. */
 void strchinsl(char* str,const char ch 	    ){ const char *temp = &ch; strinsl(str,temp)  ;}
@@ -82,17 +82,17 @@ void strchinsl(char* str,const char ch 	    ){ const char *temp = &ch; strinsl(s
 void strchinsr(char* str,const char ch 	    ){ const char *temp = &ch; strcat(str,temp)   ;}
 
 /* Returns the first position of a substring analyzing it from left to right, starting from the incident 'i'. */
-int strposlr(const char *str,const char *substr, int i){
+long strposlr(const char *str,const char *substr, long i){
 	if(strempty(str)) return -1;
-	int substr_len = strlen(substr);
-	const int len = (strlen(str)-substr_len)+1;
+	size_t substr_len = strlen(substr);
+	const size_t len = (strlen(str)-substr_len)+1;
 
 	if ( substr_len > strlen(str) ) return -2;
 	if ( i >= strlen(str) ) return -3;
 	if ( i<0 ) i = len-i;
 
 	char iqual = 0;
-	int i2=0;
+	size_t i2=0;
 
 	if (substr_len == 1)
 	{
@@ -119,14 +119,14 @@ int strposlr(const char *str,const char *substr, int i){
 }
 
 /* Returns the first position of a substring analyzing it from right to left, starting from the incident 'i'. */
-int strposrl(char *str,const char *substr, int i){
+long strposrl(char *str,const char *substr, long i){
 	if ( strempty(str) ) return -1;
 	if ( strempty(substr) ) return -2;
 	if ( strlen(substr) > strlen(str) ) return -2;
 
-	int i2;
-	const int substr_len = i2 = strlen(substr);
-	const int len        = strlen(str);
+	size_t i2;
+	const size_t substr_len = i2 = strlen(substr);
+	const size_t len        = strlen(str);
 	if ( i<0 ) i = len-i;
 	char iqual = 0;
 
@@ -156,9 +156,9 @@ int strposrl(char *str,const char *substr, int i){
 }
 
 /* Returns the number of times a substring appears. */
-int strcount(const char *str, const char *word){
-	int count = 0,i=0;
-	const int word_len = strlen(word);
+size_t strcount(const char *str, const char *word){
+	size_t count = 0,i=0;
+	const size_t word_len = strlen(word);
 	if ( strempty(str) || strempty(word)) return 0;
 	if ( (i = strposlr(str,word,0)) < 0 ) return 0;
 
@@ -174,12 +174,12 @@ int strcount(const char *str, const char *word){
 }
 
 /* Removes the character from a string that is in a specific index. */
-char strrem(char* str, int i){
-	const int len = strlen(str);
+char strrem(char* str, long i){
+	const size_t len = strlen(str);
 	if (strempty(str)) return -1;
 	if (i >= len)return -2;
 	if (i < 0 && i*-1 >= len)return -2;
-	if (i<0) i = len+i;else i--;
+	if (i<0) i = len-i;else i--;
 	while( i++ < len)
 		str[i] = str[i+1];
 	str[i]='\0';
@@ -188,10 +188,10 @@ char strrem(char* str, int i){
 
 /* Replaces a substring with another substring. */
 void strrep(char *str,const char *a,const char *b){
-	int i2,i;
-	const int len   = strlen(str);
-	const int a_len = i2 = strlen(a);
-	const int b_len = strlen(b);
+	size_t i2,i;
+	const size_t len   = strlen(str);
+	const size_t a_len = i2 = strlen(a);
+	const size_t b_len = strlen(b);
 	if ((i = strposrl(str,a,len-1)) < 0 ) return;
 
 	if (a_len == 1 && b_len == 1)
@@ -225,10 +225,9 @@ void strrep(char *str,const char *a,const char *b){
 void strfrep(char *str,const char *a,const char *b){
 	//if (str[0] != a[0]) retrn;
 
-	int i2,i;
-	const int len   = strlen(str);
-	const int a_len = i2 = strlen(a);
-	const int b_len = strlen(b);
+	size_t i2,i;
+	const size_t a_len = i2 = strlen(a);
+	const size_t b_len = strlen(b);
 	
 	if ((i = strfpos(str,a)) < 0 ) return;
 
@@ -251,10 +250,9 @@ void strfrep(char *str,const char *a,const char *b){
 
 /* Replaces the last occurrence of the substring with another substring. */
 void strlrep(char *str,const char *a,const char *b){
-	int i2,i;
-	const int len   = strlen(str);
-	const int a_len = i2 = strlen(a);
-	const int b_len = strlen(b);
+	size_t i2,i;
+	const size_t a_len = i2 = strlen(a);
+	const size_t b_len = strlen(b);
 	if ((i = strlpos(str,a)) < 0 ) return;
 
 	if (a_len == 1 && b_len == 1)
@@ -277,8 +275,9 @@ void strlrep(char *str,const char *a,const char *b){
 }
 
 /* Separates a string based on a separator and save the result in a matrix. And return the number of substrings that resulted from that separation returns. */
-int strsplit(const char *str,const char *sep,const size_t w,char ***arr){
-	int i = -1,x = -1,y = 0;
+size_t strsplit(const char *str,const char *sep,const size_t w,char ***arr){
+	long i = -1,x = -1;
+	size_t y = 0;
 	
 	char **aux;
 
@@ -291,7 +290,6 @@ int strsplit(const char *str,const char *sep,const size_t w,char ***arr){
 	}else{
 		aux[0] = (char*)malloc(w * sizeof(char) );
 	}
-
 
 
 	int len = strlen(str);
