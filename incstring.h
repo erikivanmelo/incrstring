@@ -278,17 +278,15 @@ static size_t strsplit(const char *str,const char *sep,const size_t w,char ***ar
 	long i = -1,x = -1;
 	size_t y = 0;
 	
-	char **aux;
-
-	aux = (char**)malloc((strcount(str,sep)+2) * sizeof(char*));
+	char **aux = (char**)malloc((strcount(str,sep)+1) * sizeof(char*));
 
 	if ( strfpos(str,sep) < 0 ){
-		aux[0] = (char*)malloc(strlen(str)+1 * sizeof(char) );
+		aux[0] = (char*)malloc((strlen(str)+1) * sizeof(char) );
 		strcpy(aux[0],str);
 		*arr = aux;
 		return 1;
 	}else{
-		aux[0] = (char*)malloc(w * sizeof(char) );
+		aux[0] = (char*)malloc((w+1) * sizeof(char) );
 	}
 
 
@@ -302,7 +300,7 @@ static size_t strsplit(const char *str,const char *sep,const size_t w,char ***ar
 				aux[y][x++] = '\0';
 				y++;
 				x=-1;
-				aux[y] = (char*)malloc(w * sizeof(char) );
+				aux[y] = (char*)malloc((w+1) * sizeof(char) );
 			}
 		}while(i<len);
 	}else{
@@ -315,7 +313,7 @@ static size_t strsplit(const char *str,const char *sep,const size_t w,char ***ar
 				x=-1;
 				i+=sep_len-1;
 				nextSep = strposlr(str,sep,i);
-				aux[y] = (char*)malloc(w * sizeof(char) );
+				aux[y] = (char*)malloc((w+1) * sizeof(char) );
 			}
 		}while(i<len);
 	}
