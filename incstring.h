@@ -1,5 +1,5 @@
-#ifndef STRINGPP_H
-#define STRINGPP_H
+#ifndef INCSTRING_H
+#define INCSTRING_H
 #include <stdlib.h>
 #include <string.h>
 

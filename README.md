@@ -1,4 +1,4 @@
-# String++
+# increased string
 This a c library with a function recopilation for string manipulation
 
 Functions
