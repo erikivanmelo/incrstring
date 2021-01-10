@@ -1,5 +1,5 @@
-#ifndef INCSTRING_H
-#define INCSTRING_H
+#ifndef INCRSTRING_H
+#define INCRSTRING_H
 #include <stdlib.h>
 #include <string.h>
 
