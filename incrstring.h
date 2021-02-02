@@ -84,10 +84,10 @@ static void strchinsr(char* str,const char ch 	    ){ const char *temp = &ch; st
 static long strposlr(const char *str,const char *substr, long i){
 	if(strempty(str)) return -1;
 	size_t substr_len = strlen(substr);
-	const size_t len = (strlen(str)-substr_len)+1;
+	size_t len = strlen(str);
 
-	if ( substr_len > strlen(str) ) return -2;
-	if ( i >= strlen(str) ) return -3;
+	if ( substr_len > len ) return -2;
+	if ( i >= len ) return -3;
 	if ( i<0 ) i = len-i;
 
 	char iqual = 0;
@@ -99,6 +99,7 @@ static long strposlr(const char *str,const char *substr, long i){
 		return (i == len && str[i]!=substr[0] )? -1 : i;
 	}else{
 		substr_len--;
+		len -= substr_len-1;
 		do
 		{
 			if (str[i]==substr[0])
@@ -118,14 +119,19 @@ static long strposlr(const char *str,const char *substr, long i){
 }
 
 /* Returns the first position of a substring analyzing it from right to left, starting from the incident 'i'. */
-static long strposrl(char *str,const char *substr, long i){
+static long strposrl(const char *str,const char *substr, long i){
+	const size_t substr_len = strlen(substr);
+	const size_t len        = strlen(str);
+
 	if ( strempty(str) ) return -1;
 	if ( strempty(substr) ) return -2;
-	if ( strlen(substr) > strlen(str) ) return -2;
+	
+	if ( substr_len > len ) return -2;
 
-	size_t i2;
-	const size_t substr_len = i2 = strlen(substr);
-	const size_t len        = strlen(str);
+	if (i >= strlen(str)) return -3;
+
+	size_t i2 = substr_len;
+
 	if ( i<0 ) i = len-i;
 	char iqual = 0;
 
@@ -147,10 +153,12 @@ static long strposrl(char *str,const char *substr, long i){
 					}
 				}
 			}
-		}while(i-- && !iqual);
+		}while(i-- >= substr_len && !iqual);
 		i++;
 
 		return (iqual)? i-(substr_len-1) : -1 ;
+
+
 	}
 }
 
