@@ -58,17 +58,17 @@
 
 /* Inserts a substring in a specific point. */
 static char strins(char* str,long x,const char* substr){
-	const size_t substr_len = strlen(substr);
-	const size_t len = strlen(str);
-	if (x >= len) return -2;
+	const long substr_len = (long)strlen(substr);
+	const long len 		  = (long)strlen(str);
+	if (x >= (long)len) return -2;
 
 	if (x<0) x = len-x;
 
 	str[len+substr_len] = '\0';
-	for (size_t i = len+substr_len; i > x; --i)
+	for (long i = len+substr_len; i > x; --i)
 		str[i] = str[i-substr_len];
 
-	for (size_t j = 0; j < substr_len; ++j)
+	for (long j = 0; j < substr_len; ++j)
 		str[j+x] = substr[j];
 
 	return 1;
@@ -86,15 +86,15 @@ static void strchinsr(char* str,const char ch 	    ){ const char *temp = &ch; st
 /* Returns the first position of a substring analyzing it from left to right, starting from the incident 'i'. */
 static long strposlr(const char *str,const char *substr, long i){
 	if(strempty(str)) return -1;
-	size_t substr_len = strlen(substr);
-	size_t len = strlen(str);
+	long substr_len = (long)strlen(substr);
+	long len 		= (long)strlen(str);
 
 	if ( substr_len > len ) return -2;
 	if ( i >= len ) return -3;
 	if ( i<0 ) i = len-i;
 
 	char iqual = 0;
-	size_t i2=0;
+	long i2=0;
 
 	if (substr_len == 1)
 	{
@@ -123,17 +123,17 @@ static long strposlr(const char *str,const char *substr, long i){
 
 /* Returns the first position of a substring analyzing it from right to left, starting from the incident 'i'. */
 static long strposrl(const char *str,const char *substr, long i){
-	const size_t substr_len = strlen(substr);
-	const size_t len        = strlen(str);
+	const long substr_len = (long)strlen(substr);
+	const long len        = (long)strlen(str);
 
 	if ( strempty(str) ) return -1;
 	if ( strempty(substr) ) return -2;
 	
 	if ( substr_len > len ) return -2;
 
-	if (i >= strlen(str)) return -3;
+	if (i >= (long)strlen(str)) return -3;
 
-	size_t i2 = substr_len;
+	long i2 = substr_len;
 
 	if ( i<0 ) i = len-i;
 	char iqual = 0;
@@ -167,13 +167,13 @@ static long strposrl(const char *str,const char *substr, long i){
 
 /* Returns the number of times a substring appears. */
 static size_t strcount(const char *str, const char *word){
-	size_t count = 0,i=0;
-	const size_t word_len = strlen(word);
+	long count = 0,i=0;
+	const long word_len = (long)strlen(word);
 	if ( strempty(str) || strempty(word)) return 0;
 	if ( (i = strposlr(str,word,0)) < 0 ) return 0;
 
 	if (word_len == 1){
-		i = strlen(str);
+		i = (long)strlen(str);
 		while(i--) if (str[i] == word[0]) count++;
 		return count;
 	}
@@ -185,7 +185,7 @@ static size_t strcount(const char *str, const char *word){
 
 /* Removes the character from a string that is in a specific index. */
 static char strrem(char* str, long i){
-	const size_t len = strlen(str);
+	const long len = (long)strlen(str);
 	if (strempty(str)) return -1;
 	if (i >= len)return -2;
 	if (i < 0 && i*-1 >= len)return -2;
@@ -198,11 +198,10 @@ static char strrem(char* str, long i){
 
 /* Replaces a substring with another substring. */
 static void strrep(char *str,const char *a,const char *b){
-	size_t i2,i;
-	const size_t len   = strlen(str);
-	const size_t a_len = i2 = strlen(a);
-	const size_t b_len = strlen(b);
-	if ((i = strposrl(str,a,len-1)) < 0 ) return;
+	long i2,i;
+	const long a_len = i2 = (long)strlen(a);
+	const long b_len = 		(long)strlen(b);
+	if ((i = strfpos(str,a)) < 0 ) return;
 
 	if (a_len == 1 && b_len == 1)
 	{
@@ -227,7 +226,7 @@ static void strrep(char *str,const char *a,const char *b){
 			}
 			strins(str,i,b);
 			i2 = a_len;
-		}while( (i = strposrl(str,a,i-1)) > -1 );
+		}while( (i = strfpos(str,a)) > -1 );
 	}
 }
 
@@ -235,9 +234,9 @@ static void strrep(char *str,const char *a,const char *b){
 static void strfrep(char *str,const char *a,const char *b){
 	//if (str[0] != a[0]) retrn;
 
-	size_t i2,i;
-	const size_t a_len = i2 = strlen(a);
-	const size_t b_len = strlen(b);
+	long i2,i;
+	const long a_len = i2 = (long) strlen(a);
+	const long b_len = (long) strlen(b);
 	
 	if ((i = strfpos(str,a)) < 0 ) return;
 
@@ -260,9 +259,9 @@ static void strfrep(char *str,const char *a,const char *b){
 
 /* Replaces the last occurrence of the substring with another substring. */
 static void strlrep(char *str,const char *a,const char *b){
-	size_t i2,i;
-	const size_t a_len = i2 = strlen(a);
-	const size_t b_len = strlen(b);
+	long i2,i;
+	const long a_len = i2 = (long)strlen(a);
+	const long b_len = (long)strlen(b);
 	if ((i = strlpos(str,a)) < 0 ) return;
 
 	if (a_len == 1 && b_len == 1)
