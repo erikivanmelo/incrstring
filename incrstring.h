@@ -4,7 +4,7 @@
 #include <string.h>
 
 /* Returns 1 if the string is empty. */
-#define strempty(str)  (strcmp(str,"")==0)
+#define strempty(str)  (strlen(str)==0)
 
 /* Returns 1 if the string ends with 'ch'. */
 #define strew(str,ch) str[strlen(str)-1]==ch
@@ -57,9 +57,10 @@
 
 
 /* Inserts a substring in a specific point. */
-static void strins(char* str,long x,const char* substr){
+static char strins(char* str,long x,const char* substr){
 	const size_t substr_len = strlen(substr);
 	const size_t len = strlen(str);
+	if (x >= len) return -2;
 
 	if (x<0) x = len-x;
 
@@ -69,6 +70,8 @@ static void strins(char* str,long x,const char* substr){
 
 	for (size_t j = 0; j < substr_len; ++j)
 		str[j+x] = substr[j];
+
+	return 1;
 }
 
 /* Inserts a character in a specific point. */
@@ -283,49 +286,53 @@ static void strlrep(char *str,const char *a,const char *b){
 
 /* Separates a string based on a separator and save the result in a matrix. And return the number of substrings that resulted from that separation returns. */
 static size_t strsplit(const char *str,const char *sep,const size_t w,char ***arr){
-	long i = -1,x = -1;
-	size_t y = 0;
+	long i = 0,x = 0;
+	long y = 0;
 	
 	char **aux = (char**)malloc((strcount(str,sep)+1) * sizeof(char*));
 
 	if ( strfpos(str,sep) < 0 ){
-		aux[0] = (char*)malloc((strlen(str)+1) * sizeof(char) );
+		aux[0] = (char*)calloc((strlen(str)+1), sizeof(char) );
 		strcpy(aux[0],str);
 		*arr = aux;
 		return 1;
 	}else{
-		aux[0] = (char*)malloc((w+1) * sizeof(char) );
+		aux[0] = (char*)calloc((w+1), sizeof(char) );
 	}
 
 
-	int len = strlen(str);
+	long len = strlen(str);
 	const int sep_len = strlen(sep);
 	if ( sep_len == 1)
 	{
-		do{
-			aux[y][x++] = str[i++];
+		for (; i < len; ++i,++x)
+		{
+
+			aux[y][x] = str[i];
 			if (str[i]==sep[0]){
-				aux[y][x++] = '\0';
-				y++;
+				aux[y][x] = '\0';
+				++y;
 				x=-1;
-				aux[y] = (char*)malloc((w+1) * sizeof(char) );
+				aux[y] = (char*)calloc((w+1), sizeof(char) );
 			}
-		}while(i<len);
+
+		}
 	}else{
-		int nextSep = strposlr(str,sep,0);
-		do{
-			aux[y][x++] = str[i++];
+		long nextSep = strposlr(str,sep,0);
+		for (; i < len; ++i,++x)
+		{
+			aux[y][x] = str[i];
 			if (i==nextSep){
-				aux[y][x++] = '\0';
-				y++;
+				aux[y][x] = '\0';
+				++y;
 				x=-1;
 				i+=sep_len-1;
 				nextSep = strposlr(str,sep,i);
-				aux[y] = (char*)malloc((w+1) * sizeof(char) );
+				aux[y] = (char*)calloc((w+1), sizeof(char) );
 			}
-		}while(i<len);
+		}
 	}
-	aux[y][x++] = '\0';
+	aux[y][x] = '\0';
 
 	*arr = aux;
 	return y+1;
