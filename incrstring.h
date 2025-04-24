@@ -88,42 +88,25 @@ static void strchinsl(char* str,const char ch 	    ){ const char *temp = &ch; st
 /* Inserts a character to the right of the string. */
 static void strchinsr(char* str,const char ch 	    ){ const char *temp = &ch; strcat(str,temp)   ;}
 
-/* Returns the first position of a substring analyzing it from left to right, starting from the incident 'i'. */
-static long strposlr(const char *str,const char *substr, long i){
-	if(strempty(str)) return -1;
-	long substr_len = (long)strlen(substr);
-	long len 		= (long)strlen(str);
+/* Returns the first position of a substring analyzing it from left to right, starting from the incident 'start_index'. */
+static long strposlr(const char *str,const char *substr, long start_index){
+    if (!str || !substr || !*str || !*substr) return -1;
+    size_t str_len = strlen(str);
+    size_t substr_len = strlen(substr);
 
-	if ( substr_len > len ) return -2;
-	if ( i >= len ) return -3;
-	if ( i<0 ) i = len-i;
+    if (substr_len > str_len) return -2;
+    if (start_index >= (long)str_len) return -3;
 
-	char iqual = 0;
-	long i2=0;
+    if (start_index < 0) start_index = str_len + start_index;
 
-	if (substr_len == 1)
-	{
-		while (i < len && str[i]!=substr[0]) i++;
-		return (i == len && str[i]!=substr[0] )? -1 : i;
-	}else{
-		substr_len--;
-		len -= substr_len-1;
-		do
-		{
-			if (str[i]==substr[0])
-			{
-				iqual = 1;
-				do{
-					if (str[i+i2] != substr[i2]){
-						iqual = i2 = 0;
-						break;
-					}
-				}while (i2++ < substr_len);
-			}
-		}while(i++ < len && iqual == 0);
-	}
+    if (start_index < 0 || (size_t)start_index >= str_len) return -3;
 
-	return (iqual)? i-1 : -1 ;
+    const char *start = str + start_index;
+    const char *found = strstr(start, substr);
+
+    if (!found) return -1;
+
+    return (long)(found - str);
 }
 
 /* Returns the first position of a substring analyzing it from right to left, starting from the incident 'i'. */
