@@ -46,12 +46,16 @@
 #define strtrimr(str) for(size_t ___i = strlen(str)-1;str[___i]==' ';)strrem(str,___i--) 
 
 /* Reverses the position of the characters in the string. */
-#define strrvrs(str)({\
-	char ___buffer[strlen(str)];\
-	memcpy(___buffer, str, strlen(str));\
-	for(size_t ___i = -1, ___j = strlen(str);___j;){\
-		___i++;___j--; str[___i] = ___buffer[___j];\
-	}\
+#define strrvrs(str) ({ \
+    size_t ___len = strlen(str); \
+    if (___len > 0) { \
+        char ___buffer[___len + 1]; /* Asegurar espacio para el terminador nulo */ \
+        memcpy(___buffer, str, ___len); \
+        ___buffer[___len] = '\0'; /* Agregar terminador nulo */ \
+        for (size_t ___i = 0; ___i < ___len; ++___i) { \
+            str[___i] = ___buffer[___len - ___i - 1]; \
+        } \
+    } \
 })
 
 
