@@ -48,13 +48,11 @@
 /* Reverses the position of the characters in the string. */
 #define strrvrs(str) ({ \
     size_t ___len = strlen(str); \
-    if (___len > 0) { \
-        char ___buffer[___len + 1]; /* Asegurar espacio para el terminador nulo */ \
-        memcpy(___buffer, str, ___len); \
-        ___buffer[___len] = '\0'; /* Agregar terminador nulo */ \
-        for (size_t ___i = 0; ___i < ___len; ++___i) { \
-            str[___i] = ___buffer[___len - ___i - 1]; \
-        } \
+    char ___temp;\
+    for (size_t ___i = 0; ___i < ___len / 2; ++___i) { \
+        ___temp = str[___i]; \
+        str[___i] = str[___len - ___i - 1]; \
+        str[___len - ___i - 1] = ___temp; \
     } \
 })
 
