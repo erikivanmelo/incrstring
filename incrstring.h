@@ -59,21 +59,24 @@
 
 
 /* Inserts a substring in a specific point. */
-static char strins(char* str,long x,const char* substr){
-	const long substr_len = (long)strlen(substr);
-	const long len 		  = (long)strlen(str);
-	if (x >= (long)len) return -2;
+static char strins(char* str, long index,const char* substr){
+    if (str == NULL || substr == NULL) return -1; // Error: NULL input
+    const size_t str_len = strlen(str);
+    const size_t substr_len = strlen(substr);
 
-	if (x<0) x = len-x;
+    if (index >= str_len) return -2; // Error: Not enough space
 
-	str[len+substr_len] = '\0';
-	for (long i = len+substr_len; i > x; --i)
-		str[i] = str[i-substr_len];
+    // Handle negative indices
+    if (index < 0) index = str_len + index;
+    if (index < 0 || (size_t)index > str_len) return -3; // Error: Index out of range
 
-	for (long j = 0; j < substr_len; ++j)
-		str[j+x] = substr[j];
+    // Move existing characters to make space for the substring
+    memmove(str + index + substr_len, str + index, str_len - index + 1);
 
-	return 1;
+    // Insert the substring
+    memcpy(str + index, substr, substr_len);
+
+    return 0; // Success
 }
 
 /* Inserts a character in a specific point. */
